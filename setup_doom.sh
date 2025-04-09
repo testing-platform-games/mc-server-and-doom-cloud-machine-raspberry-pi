@@ -28,7 +28,23 @@ else
   exit 1
 fi
 
+#Make the doom_start.sh file
+cat <<EOL > ./doom_start.sh
+#!/bin/bash n
+
+# Path to the DOOM WAD file
+IWAD_PATH="/usr/share/games/doom/DOOM1.WAD"
+
+# Check if the WAD file exists
+if [ ! -f "$IWAD_PATH" ]; then
+  echo "Error: WAD file not found. Please ensure DOOM1.WAD is installed. Install by using "sudo apt install doom-wad-shareware"."
+  exit 1
+fi
+
+# Start Chocolate Doom with the shareware WAD
+chocolate-doom -iwad "$IWAD_PATH" -nosound -nojoy -nomouse
+EOL
+
 # Provide instructions to the user
 echo_message "Installation complete!"
-echo "You can now play DOOM by running 'chocolate-doom' in the terminal."
-echo "Enjoy your game!"
+echo "You can now play DOOM by running "./doom_start.sh" in the terminal."
