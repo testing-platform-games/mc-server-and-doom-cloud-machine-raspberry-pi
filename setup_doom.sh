@@ -1,50 +1,48 @@
 #!/bin/bash
-# setup_doom.sh
 
-# Function to display messages
-echo_message() {
-  echo "========================================"
-  echo "$1"
-  echo "========================================"
-}
+echo "=================================="
+echo "      DOOM Install Menu"
+echo "=================================="
+echo "Choose which version of DOOM to install:"
+echo "1. ASCII DOOM (runs in terminal, lower quality)"
+echo "2. Framebuffer DOOM (fbDOOM - full graphics, no X11, requires sudo)"
+read -p "Enter choice (1 or 2): " choice
 
-# Update system packages
-echo_message "Updating system packages..."
-sudo apt update && sudo apt upgrade -y
+if [[ $choice == "1" ]]; then
+    echo "[+] Installing ASCII DOOM..."
 
-# Install Chocolate Doom
-echo_message "Installing Chocolate Doom..."
-sudo apt install -y chocolate-doom
+    sudo apt update && sudo apt install -y git make gcc wget
 
-# Install the shareware DOOM WAD
-echo_message "Installing DOOM shareware WAD..."
-sudo apt install -y doom-wad-shareware
+    git clone https://github.com/wojciech-graj/doom-ascii.git ~/doom-ascii
+    cd ~/doom-ascii/src || exit 1
+    make
 
-# Verify installation
-if [ -f "/usr/share/games/doom/DOOM1.WAD" ]; then
-  echo_message "DOOM shareware WAD installed successfully."
+    cd ~/doom-ascii || exit 1
+    wget -O doom1.wad https://distro.ibiblio.org/slitaz/sources/packages/d/doom1.wad
+
+    # Add ASCII DOOM shortcut
+    if ! grep -q "alias asciidoom=" ~/.bashrc; then
+        echo "alias asciidoom='~/doom-ascii/doom_ascii -iwad ~/doom-ascii/doom1.wad -scaling 2'" >> ~/.bashrc
+        echo "[✓] Added 'asciidoom' shortcut to your terminal."
+    fi
+
+    echo "[✓] ASCII DOOM installed! Type 'asciidoom' in a new terminal to play."
+
+elif [[ $choice == "2" ]]; then
+    echo "[+] Installing fbDOOM (Framebuffer DOOM)..."
+
+    sudo apt update && sudo apt install -y git libsdl1.2-dev gcc make unzip wget
+
+    mkdir -p ~/doom/fbdoom && cd ~/doom/fbdoom || exit
+    git clone https://github.com/ozkl/fbDOOM.git .
+    make
+
+    mkdir -p ~/doom/fbdoom/wads
+    wget -O ~/doom/fbdoom/wads/doom1.wad https://distro.ibiblio.org/slitaz/sources/packages/d/doom1.wad
+
+    echo "[✓] fbDOOM installed! To run: cd ~/doom/fbdoom && sudo ./fbdoom"
+
 else
-  echo_message "Failed to install DOOM shareware WAD."
-  exit 1
+    echo "[!] Invalid choice. Exiting."
+    exit 1
 fi
-
-#Make the doom_start.sh file
-cat <<EOL > ./doom_start.sh
-#!/bin/bash n
-
-# Path to the DOOM WAD file
-IWAD_PATH="/usr/share/games/doom/DOOM1.WAD"
-
-# Check if the WAD file exists
-if [ ! -f "$IWAD_PATH" ]; then
-  echo "Error: WAD file not found. Please ensure DOOM1.WAD is installed. Install by using "sudo apt install doom-wad-shareware"."
-  exit 1
-fi
-
-# Start Chocolate Doom with the shareware WAD
-chocolate-doom -iwad "$IWAD_PATH" -nosound -nojoy -nomouse
-EOL
-
-# Provide instructions to the user
-echo_message "Installation complete!"
-echo "You can now play DOOM by running "./doom_start.sh" in the terminal."
