@@ -22,7 +22,7 @@ chmod +x minecraft_setup.sh
 ```
 - Get the DOOM Cloud Machine Setup .sh file and make it executable:
 ```bash
-wget https://github.com/testing-platform-games/mc-server-and-doom-cloud-machine-raspberry-pi/raw/refs/heads/main/minecraft_setup.sh
+wget https://github.com/testing-platform-games/mc-server-and-doom-cloud-machine-raspberry-pi/raw/refs/heads/main/doom_setup.sh
 chmod +x doom_setup.sh
 ```
 - Run it:
