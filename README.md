@@ -11,4 +11,13 @@
 ```bash
 sudo apt-get install wget
 ```
-- More coming soon...
+- Get the Minecraft Server .sh file and make it executable:
+```bash
+wget https://github.com/testing-platform-games/mc-server-and-doom-cloud-machine-raspberry-pi/raw/refs/heads/main/minecraft_setup.sh
+chmod +x minecraft_setup.sh
+```
+- Run it:
+```bash
+./minecraft_server.sh
+```
+- Still a little bit more left to add and make instructions to!
