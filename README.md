@@ -13,12 +13,21 @@ sudo apt-get install wget
 ```
 - Get the Minecraft Server Setup .sh file and make it executable:
 ```bash
-wget https://github.com/testing-platform-games/mc-server-and-doom-cloud-machine-raspberry-pi/raw/refs/heads/main/minecraft_setup.sh
-chmod +x minecraft_setup.sh
+wget https://github.com/testing-platform-games/mc-server-and-doom-cloud-machine-raspberry-pi/raw/refs/heads/main/install_latest_java.sh
+chmod +x install_latest_java.sh
 ```
 - Run it:
 ```bash
 ./minecraft_setup.sh
+```
+- Get the install script for Java 24 (Compiles/Installs on anything) and make it executable:
+```bash
+wget https://github.com/testing-platform-games/mc-server-and-doom-cloud-machine-raspberry-pi/raw/refs/heads/main/install_latest_java.sh
+chmod +x install_latest_java.sh
+```
+- Run it:
+```bash
+./install_latest_java.sh
 ```
 - Get the DOOM Cloud Machine Setup .sh file and make it executable:
 ```bash
